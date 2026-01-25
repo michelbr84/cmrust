@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CM Rust ⚽ - Championship Manager Simulator in Rust</title>
+    <meta name="description"
+        content="A Championship Manager 01/02-style football manager simulator written in Rust. Experience the nostalgia with modern technology.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+    <div class="floating-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">⚽</span>
+                <span class="logo-text">CM<span class="accent">Rust</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#architecture" class="nav-link">Architecture</a>
+                <a href="#roadmap" class="nav-link">Roadmap</a>
+                <a href="https://github.com/michelbr84/cmrust" class="nav-btn" target="_blank">
+                    <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                Championship Manager 01/02 Style
+            </div>
+            <h1 class="hero-title">
+                <span class="title-line">Football Manager</span>
+                <span class="title-line gradient-text">Simulator in Rust</span>
+            </h1>
+            <p class="hero-description">
+                Experience the golden era of football management games with a modern,
+                blazing-fast engine built in Rust. Tick-by-tick match simulation,
+                AI-driven transfers, and authentic management experience.
+            </p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-value">14</span>
+                    <span class="stat-label">Crates</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">300+</span>
+                    <span class="stat-label">Tests</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">40+</span>
+                    <span class="stat-label">Player Attributes</span>
+                </div>
+            </div>
+            <div class="hero-buttons">
+                <a href="game.html" class="btn btn-primary">
+                    <span class="btn-text">⚽ Play Now</span>
+                    <span class="btn-icon">→</span>
+                </a>
+                <a href="#quick-start" class="btn btn-secondary">
+                    Quick Start
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="code-window">
+                <div class="window-header">
+                    <div class="window-dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <span class="window-title">terminal</span>
+                </div>
+                <div class="code-content">
+                    <pre><code><span class="prompt">$</span> cargo run -p cm_cli -- simulate-match \
+    --home LIV --away ARS --seed 42
+
+<span class="output">⚽ Match: Liverpool vs Arsenal
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<span class="highlight">23'</span> ⚽ GOAL! Salah scores for Liverpool
+<span class="highlight">45'</span> 🟨 Yellow card: Rice (Arsenal)
+<span class="highlight">67'</span> ⚽ GOAL! Saka equalizes for Arsenal
+<span class="highlight">89'</span> ⚽ GOAL! Núñez wins it for Liverpool!
+
+<span class="result">Full Time: Liverpool 2 - 1 Arsenal</span></span></code></pre>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quick Start Section -->
+    <section id="quick-start" class="section quick-start">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">🚀 Get Started</span>
+                <h2 class="section-title">Up and Running in Seconds</h2>
+            </div>
+            <div class="code-block-large">
+                <div class="code-header">
+                    <span class="code-lang">bash</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <pre><code><span class="comment"># Clone and build</span>
+git clone https://github.com/michelbr84/cmrust.git
+cd cmrust
+cargo build --release
+
+<span class="comment"># Simulate a match</span>
+cargo run -p cm_cli -- simulate-match --home LIV --away ARS --seed 42
+
+<span class="comment"># Create a new game</span>
+cargo run -p cm_cli -- new-game --club LIV --manager "Your Name"
+
+<span class="comment"># Advance simulation</span>
+cargo run -p cm_cli -- advance-day --days 7</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">✨ Features</span>
+                <h2 class="section-title">Everything You Need</h2>
+                <p class="section-description">
+                    A complete football management simulation with authentic mechanics
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card featured">
+                    <div class="feature-icon">⚽</div>
+                    <h3>Match Engine</h3>
+                    <p>Tick-by-tick probabilistic simulation with highlights, goals, cards, injuries, and realistic
+                        match commentary.</p>
+                    <div class="feature-tag">Core System</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>World Model</h3>
+                    <p>Nations, Clubs, Players with 40+ attributes, Staff, Competitions, Stadiums, and Referees.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Systems</h3>
+                    <p>Matchday lineup selection, transfer decision-making, squad analysis, and press conferences.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>Data Import</h3>
+                    <p>JSON-based world loader with auto-generated defaults and SQLite persistence.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Save System</h3>
+                    <p>Compressed saves with SHA256 integrity verification for secure game states.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Transfer System</h3>
+                    <p>Bid evaluation, contract negotiations, and intelligent player valuation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Game Loop</h3>
+                    <p>Day-by-day processing with morale, training, injury, and financial systems.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⌨️</div>
+                    <h3>CLI Interface</h3>
+                    <p>Commands for match simulation, game creation, and day advancement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="section architecture">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">🏗️ Architecture</span>
+                <h2 class="section-title">14-Crate Workspace</h2>
+                <p class="section-description">
+                    Domain-driven design with clean separation of concerns
+                </p>
+            </div>
+            <div class="architecture-grid">
+                <div class="crate-card utilities">
+                    <div class="crate-header">
+                        <span class="crate-icon">🔧</span>
+                        <span class="crate-name">cm_utils</span>
+                    </div>
+                    <p>Utilities (fs, hashing, RNG, time)</p>
+                </div>
+                <div class="crate-card utilities">
+                    <div class="crate-header">
+                        <span class="crate-icon">📊</span>
+                        <span class="crate-name">cm_telemetry</span>
+                    </div>
+                    <p>Logging, tracing, and metrics</p>
+                </div>
+                <div class="crate-card core">
+                    <div class="crate-header">
+                        <span class="crate-icon">🎯</span>
+                        <span class="crate-name">cm_core</span>
+                    </div>
+                    <p>Domain models (world, economy, IDs)</p>
+                </div>
+                <div class="crate-card data">
+                    <div class="crate-header">
+                        <span class="crate-icon">💾</span>
+                        <span class="crate-name">cm_data</span>
+                    </div>
+                    <p>Data layer (JSON, SQLite, queries)</p>
+                </div>
+                <div class="crate-card engine">
+                    <div class="crate-header">
+                        <span class="crate-icon">⚡</span>
+                        <span class="crate-name">cm_match</span>
+                    </div>
+                    <p>Match engine (simulation, events)</p>
+                </div>
+                <div class="crate-card ai">
+                    <div class="crate-header">
+                        <span class="crate-icon">🤖</span>
+                        <span class="crate-name">cm_ai</span>
+                    </div>
+                    <p>AI systems (matchday, transfers)</p>
+                </div>
+                <div class="crate-card systems">
+                    <div class="crate-header">
+                        <span class="crate-icon">💰</span>
+                        <span class="crate-name">cm_finance</span>
+                    </div>
+                    <p>Financial simulation (wages, FFP)</p>
+                </div>
+                <div class="crate-card systems">
+                    <div class="crate-header">
+                        <span class="crate-icon">🔄</span>
+                        <span class="crate-name">cm_transfers</span>
+                    </div>
+                    <p>Transfer market (valuation, contracts)</p>
+                </div>
+                <div class="crate-card data">
+                    <div class="crate-header">
+                        <span class="crate-icon">💿</span>
+                        <span class="crate-name">cm_save</span>
+                    </div>
+                    <p>Save/load with compression</p>
+                </div>
+                <div class="crate-card engine">
+                    <div class="crate-header">
+                        <span class="crate-icon">🎮</span>
+                        <span class="crate-name">cm_engine</span>
+                    </div>
+                    <p>Game loop with 13+ systems</p>
+                </div>
+                <div class="crate-card interface">
+                    <div class="crate-header">
+                        <span class="crate-icon">⌨️</span>
+                        <span class="crate-name">cm_cli</span>
+                    </div>
+                    <p>CLI commands</p>
+                </div>
+                <div class="crate-card interface">
+                    <div class="crate-header">
+                        <span class="crate-icon">🌐</span>
+                        <span class="crate-name">cm_api</span>
+                    </div>
+                    <p>REST API DTOs and routes</p>
+                </div>
+                <div class="crate-card interface">
+                    <div class="crate-header">
+                        <span class="crate-icon">🖥️</span>
+                        <span class="crate-name">cm_server</span>
+                    </div>
+                    <p>Axum HTTP server</p>
+                </div>
+                <div class="crate-card interface">
+                    <div class="crate-header">
+                        <span class="crate-icon">📺</span>
+                        <span class="crate-name">cm_tui</span>
+                    </div>
+                    <p>Ratatui terminal UI</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="section roadmap">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">🎯 Roadmap</span>
+                <h2 class="section-title">Development Progress</h2>
+            </div>
+            <div class="roadmap-grid">
+                <div class="roadmap-item complete">
+                    <div class="roadmap-status">✅</div>
+                    <div class="roadmap-content">
+                        <span class="roadmap-phase">M0-M1</span>
+                        <h4>Foundation</h4>
+                        <p>Setup, workspace, cm_core</p>
+                    </div>
+                </div>
+                <div class="roadmap-item complete">
+                    <div class="roadmap-status">✅</div>
+                    <div class="roadmap-content">
+                        <span class="roadmap-phase">M2-M3</span>
+                        <h4>Data & Engine</h4>
+                        <p>JSON/SQLite, game loop</p>
+                    </div>
+                </div>
+                <div class="roadmap-item complete">
+                    <div class="roadmap-status">✅</div>
+                    <div class="roadmap-content">
+                        <span class="roadmap-phase">M4</span>
+                        <h4>Match Engine</h4>
+                        <p>Ticks, events, ratings</p>
+                    </div>
+                </div>
+                <div class="roadmap-item in-progress">
+                    <div class="roadmap-status">🔨</div>
+                    <div class="roadmap-content">
+                        <span class="roadmap-phase">M5</span>
+                        <h4>Competitions</h4>
+                        <p>Fixtures, tables</p>
+                    </div>
+                </div>
+                <div class="roadmap-item complete">
+                    <div class="roadmap-status">✅</div>
+                    <div class="roadmap-content">
+                        <span class="roadmap-phase">M6-M8</span>
+                        <h4>Systems</h4>
+                        <p>Transfers, AI, save</p>
+                    </div>
+                </div>
+                <div class="roadmap-item in-progress">
+                    <div class="roadmap-status">🔨</div>
+                    <div class="roadmap-content">
+                        <span class="roadmap-phase">M10-M12</span>
+                        <h4>Interface</h4>
+                        <p>TUI, CLI, API</p>
+                    </div>
+                </div>
+                <div class="roadmap-item complete">
+                    <div class="roadmap-status">✅</div>
+                    <div class="roadmap-content">
+                        <span class="roadmap-phase">M13</span>
+                        <h4>Testing</h4>
+                        <p>300+ tests passing</p>
+                    </div>
+                </div>
+                <div class="roadmap-item pending">
+                    <div class="roadmap-status">⬜</div>
+                    <div class="roadmap-content">
+                        <span class="roadmap-phase">M14</span>
+                        <h4>Release</h4>
+                        <p>Docs, Docker</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Build Your Dynasty?</h2>
+                <p>Clone the repo and start your football management journey</p>
+                <div class="cta-buttons">
+                    <a href="game.html" class="btn btn-primary btn-large">
+                        ⚽ Play Now
+                    </a>
+                    <a href="https://github.com/michelbr84/cmrust" class="btn btn-secondary btn-large" target="_blank">
+                        <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                        </svg>
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-icon">⚽</span>
+                    <span class="logo-text">CM<span class="accent">Rust</span></span>
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/michelbr84/cmrust" target="_blank">GitHub</a>
+                    <a href="https://github.com/michelbr84/cmrust/blob/main/LICENSE" target="_blank">MIT License</a>
+                    <a href="https://github.com/michelbr84/cmrust/blob/main/CHANGELOG.md" target="_blank">Changelog</a>
+                </div>
+                <p class="footer-text">
+                    Built with 🦀 Rust and ❤️ for football
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            this.classList.toggle('active');
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Copy code functionality
+        function copyCode(btn) {
+            const code = btn.closest('.code-block-large').querySelector('code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy', 2000);
+            });
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-card, .crate-card, .roadmap-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>

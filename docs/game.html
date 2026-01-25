@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CM Rust ⚽ - Play Game</title>
+    <meta name="description" content="Play CM Rust - A Championship Manager 01/02-style football manager simulator">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="game.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">⚽</div>
+            <h1>CM<span class="accent">Rust</span></h1>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p class="loading-text">Loading game data...</p>
+        </div>
+    </div>
+
+    <!-- Team Selection Screen -->
+    <div id="team-select-screen" class="screen team-select hidden">
+        <div class="screen-container">
+            <div class="screen-header">
+                <h1>⚽ CM<span class="accent">Rust</span></h1>
+                <p>Select your club to begin your managerial career</p>
+            </div>
+
+            <div class="manager-input">
+                <label for="manager-name">Manager Name</label>
+                <input type="text" id="manager-name" placeholder="Enter your name..." value="John Doe">
+            </div>
+
+            <div class="teams-grid" id="teams-grid">
+                <!-- Teams will be populated by JavaScript -->
+            </div>
+
+            <button id="start-game-btn" class="btn btn-primary btn-large" disabled>
+                <span>Start Career</span>
+                <span class="btn-icon">→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Game Screen -->
+    <div id="game-screen" class="screen game hidden">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="club-badge" id="sidebar-badge">
+                    <span class="badge-letter">?</span>
+                </div>
+                <div class="club-info">
+                    <span class="club-name" id="sidebar-club-name">Club Name</span>
+                    <span class="manager-name" id="sidebar-manager-name">Manager</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-screen="dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </button>
+                <button class="nav-item" data-screen="squad">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">Squad</span>
+                </button>
+                <button class="nav-item" data-screen="tactics">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-text">Tactics</span>
+                </button>
+                <button class="nav-item" data-screen="matches">
+                    <span class="nav-icon">⚽</span>
+                    <span class="nav-text">Matches</span>
+                </button>
+                <button class="nav-item" data-screen="table">
+                    <span class="nav-icon">🏆</span>
+                    <span class="nav-text">League Table</span>
+                </button>
+                <button class="nav-item" data-screen="transfers">
+                    <span class="nav-icon">💰</span>
+                    <span class="nav-text">Transfers</span>
+                </button>
+                <button class="nav-item" data-screen="finances">
+                    <span class="nav-icon">💵</span>
+                    <span class="nav-text">Finances</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="game-date">
+                    <span class="date-label">Date</span>
+                    <span class="date-value" id="current-date">1 Aug 2024</span>
+                </div>
+                <button class="advance-day-btn" id="advance-day-btn">
+                    <span>Advance Day</span>
+                    <span class="kbd">→</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard -->
+            <section id="dashboard-panel" class="panel active">
+                <div class="panel-header">
+                    <h2>Dashboard</h2>
+                    <div class="header-actions">
+                        <span class="season-badge">Season 2024/25</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Club Overview Card -->
+                    <div class="card card-large club-overview">
+                        <div class="card-header">
+                            <h3>Club Overview</h3>
+                        </div>
+                        <div class="club-stats">
+                            <div class="stat-row">
+                                <span class="stat-label">Position</span>
+                                <span class="stat-value" id="club-position">1st</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Points</span>
+                                <span class="stat-value" id="club-points">0</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Form</span>
+                                <div class="form-badges" id="club-form">
+                                    <span class="form-badge">-</span>
+                                </div>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Next Match</span>
+                                <span class="stat-value" id="next-match">TBD</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Finance Card -->
+                    <div class="card finance-card">
+                        <div class="card-header">
+                            <h3>💵 Finances</h3>
+                        </div>
+                        <div class="finance-stats">
+                            <div class="finance-item">
+                                <span class="finance-label">Balance</span>
+                                <span class="finance-value positive" id="balance">£0</span>
+                            </div>
+                            <div class="finance-item">
+                                <span class="finance-label">Transfer Budget</span>
+                                <span class="finance-value" id="transfer-budget">£0</span>
+                            </div>
+                            <div class="finance-item">
+                                <span class="finance-label">Wage Budget</span>
+                                <span class="finance-value" id="wage-budget">£0/week</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Squad Summary Card -->
+                    <div class="card squad-card">
+                        <div class="card-header">
+                            <h3>👥 Squad</h3>
+                        </div>
+                        <div class="squad-summary">
+                            <div class="squad-stat">
+                                <span class="squad-number" id="squad-size">25</span>
+                                <span class="squad-label">Players</span>
+                            </div>
+                            <div class="squad-stat">
+                                <span class="squad-number" id="squad-avg-rating">75</span>
+                                <span class="squad-label">Avg Rating</span>
+                            </div>
+                            <div class="squad-stat">
+                                <span class="squad-number" id="squad-injuries">0</span>
+                                <span class="squad-label">Injured</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- News Feed -->
+                    <div class="card card-wide news-card">
+                        <div class="card-header">
+                            <h3>📰 News</h3>
+                        </div>
+                        <div class="news-feed" id="news-feed">
+                            <div class="news-item">
+                                <span class="news-date">1 Aug</span>
+                                <span class="news-text">Welcome to CM Rust! Your managerial career begins today.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Squad Panel -->
+            <section id="squad-panel" class="panel">
+                <div class="panel-header">
+                    <h2>Squad</h2>
+                    <div class="header-actions">
+                        <select id="squad-filter" class="select-input">
+                            <option value="all">All Players</option>
+                            <option value="GK">Goalkeepers</option>
+                            <option value="DEF">Defenders</option>
+                            <option value="MID">Midfielders</option>
+                            <option value="ATT">Attackers</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="squad-table-container">
+                    <table class="data-table squad-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Pos</th>
+                                <th>Nat</th>
+                                <th>Rating</th>
+                                <th>Form</th>
+                                <th>Morale</th>
+                                <th>Wage</th>
+                            </tr>
+                        </thead>
+                        <tbody id="squad-table-body">
+                            <!-- Players populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Tactics Panel -->
+            <section id="tactics-panel" class="panel">
+                <div class="panel-header">
+                    <h2>Tactics</h2>
+                </div>
+
+                <div class="tactics-grid">
+                    <div class="formation-area">
+                        <div class="pitch" id="formation-pitch">
+                            <div class="pitch-lines">
+                                <div class="center-circle"></div>
+                                <div class="center-line"></div>
+                                <div class="penalty-area top"></div>
+                                <div class="penalty-area bottom"></div>
+                            </div>
+                            <div class="formation-players" id="formation-players">
+                                <!-- Formation players will be placed here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tactics-settings">
+                        <div class="tactic-card">
+                            <h3>Formation</h3>
+                            <div class="formation-select" id="formation-select">
+                                <button class="formation-btn active" data-formation="442">4-4-2</button>
+                                <button class="formation-btn" data-formation="433">4-3-3</button>
+                                <button class="formation-btn" data-formation="352">3-5-2</button>
+                                <button class="formation-btn" data-formation="451">4-5-1</button>
+                            </div>
+                        </div>
+
+                        <div class="tactic-card">
+                            <h3>Mentality</h3>
+                            <div class="mentality-slider">
+                                <input type="range" id="mentality-slider" min="1" max="5" value="3">
+                                <div class="mentality-labels">
+                                    <span>Defensive</span>
+                                    <span>Balanced</span>
+                                    <span>Attacking</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tactic-card">
+                            <h3>Pressing</h3>
+                            <div class="slider-container">
+                                <input type="range" id="pressing-slider" min="0" max="100" value="50">
+                                <span class="slider-value" id="pressing-value">50%</span>
+                            </div>
+                        </div>
+
+                        <div class="tactic-card">
+                            <h3>Tempo</h3>
+                            <div class="tempo-select">
+                                <button class="tempo-btn" data-tempo="low">Slow</button>
+                                <button class="tempo-btn active" data-tempo="normal">Normal</button>
+                                <button class="tempo-btn" data-tempo="high">Fast</button>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary save-tactics-btn">Save Tactics</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Matches Panel -->
+            <section id="matches-panel" class="panel">
+                <div class="panel-header">
+                    <h2>Matches</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" id="view-fixtures-btn">View All Fixtures</button>
+                    </div>
+                </div>
+
+                <div class="matches-content">
+                    <!-- Next Match Card -->
+                    <div class="next-match-card" id="next-match-card">
+                        <div class="match-header">
+                            <span class="match-competition">Premier League</span>
+                            <span class="match-date" id="match-date">5 Aug 2024</span>
+                        </div>
+                        <div class="match-teams">
+                            <div class="team home">
+                                <div class="team-badge" id="home-badge">
+                                    <span>H</span>
+                                </div>
+                                <span class="team-name" id="home-team">Home Team</span>
+                            </div>
+                            <div class="vs-container">
+                                <span class="vs">VS</span>
+                            </div>
+                            <div class="team away">
+                                <div class="team-badge" id="away-badge">
+                                    <span>A</span>
+                                </div>
+                                <span class="team-name" id="away-team">Away Team</span>
+                            </div>
+                        </div>
+                        <div class="match-actions">
+                            <button class="btn btn-primary" id="simulate-match-btn">
+                                <span>⚽</span> Simulate Match
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Match Result Modal (hidden by default) -->
+                    <div class="match-result hidden" id="match-result">
+                        <div class="result-header">
+                            <h3>Match Result</h3>
+                        </div>
+                        <div class="result-score">
+                            <div class="result-team">
+                                <span class="result-team-name" id="result-home-name">Home</span>
+                                <span class="result-team-score" id="result-home-score">0</span>
+                            </div>
+                            <span class="result-divider">-</span>
+                            <div class="result-team">
+                                <span class="result-team-score" id="result-away-score">0</span>
+                                <span class="result-team-name" id="result-away-name">Away</span>
+                            </div>
+                        </div>
+                        <div class="match-events" id="match-events">
+                            <!-- Match events will be populated here -->
+                        </div>
+                        <button class="btn btn-secondary" id="close-result-btn">Continue</button>
+                    </div>
+
+                    <!-- Recent Results -->
+                    <div class="recent-results">
+                        <h3>Recent Results</h3>
+                        <div class="results-list" id="results-list">
+                            <p class="no-results">No matches played yet</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- League Table Panel -->
+            <section id="table-panel" class="panel">
+                <div class="panel-header">
+                    <h2>Premier League Table</h2>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table league-table">
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Team</th>
+                                <th>P</th>
+                                <th>W</th>
+                                <th>D</th>
+                                <th>L</th>
+                                <th>GF</th>
+                                <th>GA</th>
+                                <th>GD</th>
+                                <th>Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody id="league-table-body">
+                            <!-- Table populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Transfers Panel -->
+            <section id="transfers-panel" class="panel">
+                <div class="panel-header">
+                    <h2>Transfer Market</h2>
+                    <div class="header-actions">
+                        <div class="search-box">
+                            <input type="text" id="player-search" placeholder="Search players...">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transfers-grid">
+                    <div class="transfer-list">
+                        <h3>Available Players</h3>
+                        <div class="player-list" id="transfer-list">
+                            <!-- Transfer targets populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="transfer-activity">
+                        <h3>Transfer Activity</h3>
+                        <div class="activity-list" id="activity-list">
+                            <p class="no-activity">No transfer activity</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Finances Panel -->
+            <section id="finances-panel" class="panel">
+                <div class="panel-header">
+                    <h2>Club Finances</h2>
+                </div>
+
+                <div class="finances-grid">
+                    <div class="finance-overview-card">
+                        <h3>Financial Overview</h3>
+                        <div class="finance-breakdown">
+                            <div class="finance-row">
+                                <span class="label">Current Balance</span>
+                                <span class="value positive" id="fin-balance">£50,000,000</span>
+                            </div>
+                            <div class="finance-row">
+                                <span class="label">Weekly Wages</span>
+                                <span class="value negative" id="fin-wages">-£1,200,000</span>
+                            </div>
+                            <div class="finance-row">
+                                <span class="label">Transfer Budget</span>
+                                <span class="value" id="fin-transfer">£30,000,000</span>
+                            </div>
+                            <div class="finance-row">
+                                <span class="label">Wage Budget Remaining</span>
+                                <span class="value" id="fin-wage-remaining">£800,000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="income-card">
+                        <h3>Income Sources</h3>
+                        <div class="income-list">
+                            <div class="income-item">
+                                <span class="income-source">Match Day</span>
+                                <span class="income-value">£2,500,000/match</span>
+                            </div>
+                            <div class="income-item">
+                                <span class="income-source">TV Revenue</span>
+                                <span class="income-value">£80,000,000/season</span>
+                            </div>
+                            <div class="income-item">
+                                <span class="income-source">Sponsorship</span>
+                                <span class="income-value">£40,000,000/season</span>
+                            </div>
+                            <div class="income-item">
+                                <span class="income-source">Merchandise</span>
+                                <span class="income-value">£15,000,000/season</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Match Simulation Overlay -->
+    <div id="match-overlay" class="overlay hidden">
+        <div class="overlay-content match-simulation">
+            <div class="match-sim-header">
+                <div class="sim-team home">
+                    <div class="sim-badge" id="sim-home-badge">H</div>
+                    <span class="sim-name" id="sim-home-name">Home</span>
+                </div>
+                <div class="sim-score">
+                    <span id="sim-home-score">0</span>
+                    <span class="sim-divider">-</span>
+                    <span id="sim-away-score">0</span>
+                </div>
+                <div class="sim-team away">
+                    <span class="sim-name" id="sim-away-name">Away</span>
+                    <div class="sim-badge" id="sim-away-badge">A</div>
+                </div>
+            </div>
+
+            <div class="match-timer">
+                <div class="timer-bar">
+                    <div class="timer-progress" id="timer-progress"></div>
+                </div>
+                <span class="timer-text" id="match-minute">0'</span>
+            </div>
+
+            <div class="match-commentary" id="match-commentary">
+                <div class="commentary-item">
+                    <span class="comm-time">0'</span>
+                    <span class="comm-text">Match kicks off!</span>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" id="finish-match-btn" disabled>
+                Match in Progress...
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="game.js"></script>
+</body>
+
+</html>
