@@ -1,0 +1,23 @@
+[package]
+name = "cm_cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "cm"
+path = "src/main.rs"
+
+[dependencies]
+clap.workspace = true
+anyhow.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+chrono.workspace = true
+
+cm_core = { path = "../cm_core" }
+cm_data = { path = "../cm_data" }
+cm_engine = { path = "../cm_engine" }
+cm_match = { path = "../cm_match" }
+cm_save = { path = "../cm_save" }
+cm_telemetry = { path = "../cm_telemetry" }

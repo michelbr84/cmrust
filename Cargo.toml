@@ -1,0 +1,71 @@
+[workspace]
+resolver = "2"
+members = [
+  "crates/cm_core",
+  "crates/cm_utils",
+  "crates/cm_telemetry",
+  "crates/cm_data",
+  "crates/cm_match",
+  "crates/cm_ai",
+  "crates/cm_finance",
+  "crates/cm_transfers",
+  "crates/cm_save",
+  "crates/cm_engine",
+  "crates/cm_cli",
+  "crates/cm_tui",
+  "crates/cm_api",
+  "crates/cm_server",
+]
+
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+license = "MIT"
+authors = ["You"]
+
+[workspace.dependencies]
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Error handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Date/Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Random generation
+rand = "0.8"
+rand_chacha = "0.3"
+
+# Logging/Tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# CLI
+clap = { version = "4.5", features = ["derive"] }
+
+# Compression/Hashing
+flate2 = "1.0"
+sha2 = "0.10"
+hex = "0.4"
+
+# Configuration
+toml = "0.8"
+
+# TUI
+crossterm = "0.28"
+ratatui = "0.29"
+
+# Async/Server
+tokio = { version = "1.41", features = ["rt-multi-thread", "macros", "signal"] }
+axum = "0.7"
+tower = "0.5"
+tower-http = { version = "0.6", features = ["trace", "cors"] }
+
+# Database
+rusqlite = { version = "0.32", features = ["bundled"] }
+
+# UUID generation
+uuid = { version = "1.0", features = ["v4", "serde"] }

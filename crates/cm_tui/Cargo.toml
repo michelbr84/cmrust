@@ -1,0 +1,20 @@
+[package]
+name = "cm_tui"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "cm_tui"
+path = "src/main.rs"
+
+[dependencies]
+crossterm.workspace = true
+ratatui.workspace = true
+anyhow.workspace = true
+serde.workspace = true
+
+cm_core = { path = "../cm_core" }
+cm_engine = { path = "../cm_engine" }
+cm_data = { path = "../cm_data" }
+cm_save = { path = "../cm_save" }

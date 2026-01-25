@@ -1,0 +1,80 @@
+//! Match model types.
+
+use serde::{Deserialize, Serialize};
+use cm_core::ids::ClubId;
+use cm_core::world::Club;
+
+/// Match input for simulation.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct MatchInput {
+    pub home_id: ClubId,
+    pub away_id: ClubId,
+    pub home: TeamStrength,
+    pub away: TeamStrength,
+    pub minutes: u8,
+    pub seed: Option<u64>,
+}
+
+/// Team strength for match calculation.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct TeamStrength {
+    pub attack: u8,
+    pub midfield: u8,
+    pub defense: u8,
+    pub finishing: u8,
+    pub morale: u8,
+    pub fitness: u8,
+}
+
+impl TeamStrength {
+    /// Create from club (simplified calculation).
+    pub fn from_club(club: &Club) -> Self {
+        // Use reputation as a proxy for overall strength
+        let base = club.reputation;
+        Self {
+            attack: base.saturating_sub(5),
+            midfield: base,
+            defense: base.saturating_add(5).min(100),
+            finishing: base.saturating_sub(10),
+            morale: 70,
+            fitness: 80,
+        }
+    }
+
+    /// Overall strength.
+    pub fn overall(&self) -> u8 {
+        ((self.attack as u16 + self.midfield as u16 + self.defense as u16) / 3) as u8
+    }
+}
+
+/// Match result.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct MatchResult {
+    pub home_id: ClubId,
+    pub away_id: ClubId,
+    pub home_goals: u8,
+    pub away_goals: u8,
+    pub highlights: Vec<String>,
+}
+
+impl MatchResult {
+    /// Check if home win.
+    pub fn is_home_win(&self) -> bool {
+        self.home_goals > self.away_goals
+    }
+
+    /// Check if away win.
+    pub fn is_away_win(&self) -> bool {
+        self.away_goals > self.home_goals
+    }
+
+    /// Check if draw.
+    pub fn is_draw(&self) -> bool {
+        self.home_goals == self.away_goals
+    }
+
+    /// Get result string.
+    pub fn result_string(&self) -> String {
+        format!("{} - {}", self.home_goals, self.away_goals)
+    }
+}

@@ -1,0 +1,1 @@
+//! Inbox screen (stub).

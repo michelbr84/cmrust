@@ -1,0 +1,58 @@
+# CM Rust - .gitignore
+
+# Build artifacts
+/target/
+**/*.rs.bk
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Save files (keep directory but ignore saves)
+/saves/*.cmsave
+!/saves/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# Coverage
+/coverage/
+*.gcov
+*.gcda
+*.gcno
+
+# Profiling
+*.profraw
+*.profdata
+
+# Documentation build
+/docs/book/
+
+# SQLite databases (generated)
+*.sqlite
+*.sqlite3
+*.db
+
+# Backup files
+*.bak
+*.backup
+
+# Temporary files
+*.tmp
+*.temp
+
+# Debug files
+*.pdb

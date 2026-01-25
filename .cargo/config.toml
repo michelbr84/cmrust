@@ -1,0 +1,13 @@
+[build]
+# Incremental compilation for faster dev builds
+incremental = true
+
+[alias]
+b = "build"
+t = "test"
+r = "run"
+c = "check"
+cl = "clippy"
+
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]

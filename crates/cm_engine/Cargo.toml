@@ -1,0 +1,20 @@
+[package]
+name = "cm_engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+anyhow.workspace = true
+
+cm_core = { path = "../cm_core" }
+cm_data = { path = "../cm_data" }
+cm_match = { path = "../cm_match" }
+cm_ai = { path = "../cm_ai" }
+cm_finance = { path = "../cm_finance" }
+cm_transfers = { path = "../cm_transfers" }
+cm_save = { path = "../cm_save" }

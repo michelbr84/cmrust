@@ -1,0 +1,13 @@
+[package]
+name = "cm_transfers"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+serde.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+rand.workspace = true
+
+cm_core = { path = "../cm_core" }

@@ -1,0 +1,18 @@
+[package]
+name = "cm_save"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+anyhow.workspace = true
+flate2.workspace = true
+sha2.workspace = true
+hex.workspace = true
+
+cm_core = { path = "../cm_core" }
+cm_utils = { path = "../cm_utils" }
