@@ -6,7 +6,7 @@ use rand::Rng;
 pub fn injury_chance_per_minute(
     fitness: u8,
     natural_fitness: u8,
-    training_intensity: u8,
+    _training_intensity: u8,
 ) -> f32 {
     let base = 0.0005; // 0.05% per minute
     let fitness_mod = 1.0 + ((100 - fitness) as f32 / 100.0);

@@ -2,9 +2,9 @@
 
 use rusqlite::{params, Connection, Row, Transaction};
 use crate::errors::DataError;
-use cm_core::ids::{ClubId, CompetitionId, NationId, PlayerId, StaffId, StadiumId};
+use cm_core::ids::{ClubId, NationId, PlayerId, StadiumId};
 use cm_core::economy::{Budget, Money};
-use cm_core::world::{Club, Nation, Player, Position, Stadium, Staff, StaffRole, Competition, CompetitionType};
+use cm_core::world::{Club, Nation, Player, Position};
 use chrono::NaiveDate;
 
 /// SQLite database wrapper with full CRUD operations.

@@ -92,7 +92,7 @@ pub fn run(args: ImportDataArgs) -> anyhow::Result<()> {
     
     // Validation checks
     let mut warnings = Vec::new();
-    let mut errors = Vec::new();
+    let errors: Vec<String> = Vec::new();
     
     // Check for clubs with no players
     for (id, club) in &world.clubs {

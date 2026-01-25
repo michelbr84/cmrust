@@ -2,7 +2,7 @@
 
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
-use crate::economy::Wage;
+
 use crate::ids::{ClubId, NationId, StaffId};
 use super::Contract;
 

@@ -202,7 +202,7 @@ pub fn should_sell(
         return SellDecision::Reject { reason: "Player not found".into() };
     };
     
-    let Some(club) = world.clubs.get(club_id) else {
+    let Some(_club) = world.clubs.get(club_id) else {
         return SellDecision::Reject { reason: "Club not found".into() };
     };
     

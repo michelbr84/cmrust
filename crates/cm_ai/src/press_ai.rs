@@ -569,7 +569,7 @@ fn generate_prospects_response(context: &PressContext) -> PressResponse {
 }
 
 /// Legacy function for compatibility.
-pub fn generate_question(context: &str) -> String {
+pub fn generate_question(_context: &str) -> String {
     let ctx = PressContext::default();
     let questions = generate_questions(&ctx, 1);
     questions.first()

@@ -414,8 +414,8 @@ pub fn recommend_substitution(
     world: &World,
     club_id: &ClubId,
     starters: &[PlayerId],
-    minute: u8,
-    score_diff: i8,
+    _minute: u8,
+    _score_diff: i8,
 ) -> Option<(PlayerId, PlayerId)> {
     let players = world.club_players(club_id);
     
@@ -686,15 +686,21 @@ mod tests {
         let (mut world, club_id, _) = setup_test_world();
         
         // Make some players unavailable (low fitness)
-        for (i, player) in world.players.values_mut().enumerate() {
-            if player.club_id.as_ref() == Some(&club_id) && i % 3 == 0 {
-                player.fitness = 30; // Below availability threshold
+        // Only mark a few players as unavailable to ensure at least 11 remain available
+        let mut unavailable_count = 0;
+        let player_ids: Vec<_> = world.players.keys().cloned().collect();
+        for id in player_ids {
+            if let Some(player) = world.players.get_mut(&id) {
+                if player.club_id.as_ref() == Some(&club_id) && unavailable_count < 3 {
+                    player.fitness = 30; // Below availability threshold
+                    unavailable_count += 1;
+                }
             }
         }
         
         let lineup = select_lineup(&world, &club_id);
         
-        // Should still get 11 players if enough available
+        // Should still get 11 players if enough available (17 - 3 = 14 available)
         assert_eq!(lineup.len(), 11);
         
         // None should have low fitness

@@ -84,7 +84,7 @@ impl TrainingSystem {
             let potential_gap = player.potential.saturating_sub(current_rating);
             
             // Small chance of attribute improvement
-            let base_improvement_chance = 0.01 * potential_gap as f32 * age_factor
+            let _base_improvement_chance = 0.01 * potential_gap as f32 * age_factor
                 * intensity.development_multiplier();
             
             // In real implementation, use RNG here
@@ -100,7 +100,7 @@ impl TrainingSystem {
         &self,
         world: &mut World,
         club_id: &ClubId,
-        focus: TrainingFocus,
+        _focus: TrainingFocus,
         intensity: TrainingIntensity,
     ) {
         let player_ids: Vec<_> = world.players

@@ -2,7 +2,7 @@
 
 use cm_core::economy::Money;
 use crate::model::{Transfer, TransferStatus};
-use chrono::NaiveDate;
+
 
 /// Negotiation response from the selling club.
 #[derive(Debug, Clone, PartialEq, Eq)]

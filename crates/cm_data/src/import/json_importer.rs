@@ -1,12 +1,12 @@
 //! JSON world importer.
 
-use std::collections::HashMap;
+
 use std::path::Path;
 
 use chrono::NaiveDate;
 use serde::Deserialize;
 
-use cm_core::economy::{Budget, Money, Wage};
+use cm_core::economy::{Budget, Money};
 use cm_core::ids::*;
 use cm_core::world::*;
 

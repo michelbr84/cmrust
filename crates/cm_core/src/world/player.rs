@@ -2,7 +2,7 @@
 
 use chrono::{Datelike, NaiveDate};
 use serde::{Deserialize, Serialize};
-use crate::economy::{Money, Wage};
+use crate::economy::Money;
 use crate::ids::{ClubId, NationId, PlayerId};
 use super::{Attributes, Contract, Injury, Morale};
 

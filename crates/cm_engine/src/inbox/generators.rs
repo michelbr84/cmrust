@@ -2,7 +2,7 @@
 
 use chrono::NaiveDate;
 use cm_core::economy::Money;
-use cm_core::ids::{ClubId, PlayerId};
+
 use super::message::{InboxMessage, MessageCategory};
 
 /// Generate welcome message.

@@ -3,6 +3,7 @@
 /// Query builder helper for constructing SQL queries.
 pub struct QueryBuilder {
     query: String,
+    #[allow(dead_code)]
     params: Vec<String>,
 }
 
