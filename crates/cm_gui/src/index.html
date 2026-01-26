@@ -43,18 +43,19 @@
             <!-- Populated by JS -->
           </select>
         </div>
+
         <div class="form-group">
-          <label>Team</label>
-          <select id="manager-team">
-            <option value="LIV">Liverpool</option>
-            <option value="ARS">Arsenal</option>
-            <option value="MUN">Manchester United</option>
-            <option value="CHE">Chelsea</option>
-          </select>
+          <label>Select Team (Choose one)</label>
+          <div id="team-selection-grid" class="team-grid">
+            <!-- Populated by JS -->
+            <div class="team-card">Loading teams...</div>
+          </div>
+          <input type="hidden" id="selected-team-id" />
         </div>
+
         <div class="button-row">
           <button class="menu-btn secondary" onclick="app.showScreen('start')">Back</button>
-          <button class="menu-btn primary" onclick="app.startGame()">Start Career</button>
+          <button id="btn-start-career" class="menu-btn primary" onclick="app.createCareer()">Start Career</button>
         </div>
       </div>
     </div>
@@ -81,8 +82,54 @@
         </div>
       </div>
     </div>
+
+    <!-- Screen 5: News (Game Hub) -->
+    <div id="screen-news" class="screen">
+      <div class="news-container">
+        <div class="news-header">
+          <div class="header-brand">
+            <span class="header-title" id="news-club-name">Club Name</span>
+          </div>
+          <div class="header-date" id="game-date">
+            01 Jan 2026
+          </div>
+        </div>
+        <div class="news-body">
+          <div class="news-sidebar" id="news-inbox-list">
+            <!-- Messages List -->
+          </div>
+          <div class="news-content" id="news-article-view">
+            <div style="display:flex; height:100%; align-items:center; justify-content:center; color:#666;">
+              Select a message to read
+            </div>
+          </div>
+        </div>
+        <div class="news-footer"
+          style="padding:1rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; gap:1rem; justify-content: flex-end;">
+          <button class="menu-btn secondary" style="width:auto; font-size:1rem; padding:0.5rem 1.5rem;"
+            onclick="app.showScreen('start')">Save & Exit</button>
+          <button class="menu-btn primary" style="width:auto; font-size:1rem; padding:0.5rem 1.5rem;"
+            onclick="app.advanceGame()">Continue</button>
+        </div>
+      </div>
+    </div>
+
   </div>
   <script src="main.js" type="module"></script>
+  <script>
+    window.addEventListener('error', (event) => {
+      const errDiv = document.createElement('div');
+      errDiv.style.position = 'fixed';
+      errDiv.style.bottom = '0';
+      errDiv.style.left = '0';
+      errDiv.style.background = 'red';
+      errDiv.style.color = 'white';
+      errDiv.style.padding = '10px';
+      errDiv.style.zIndex = '9999';
+      errDiv.textContent = `JS Error: ${event.message} at ${event.filename}:${event.lineno}`;
+      document.body.appendChild(errDiv);
+    });
+  </script>
 </body>
 
 </html>

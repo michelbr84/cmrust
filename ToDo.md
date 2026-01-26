@@ -1,4 +1,4 @@
-# ToDo — CM Rust Modern UI (Windows Executable)
+# ToDo — CM Rust Modern GUI (Windows Executable)
 
 Roadmap completa para transformar o jogo em um executável Windows com interface moderna 4K, simulação estilo CM01/02, e sem dependências de mídia externa (apenas emojis/code).
 
@@ -46,36 +46,50 @@ Roadmap completa para transformar o jogo em um executável Windows com interface
   - [x] **Opções**: Navegar para `OptionsScreen`.
   - [x] **Sair**: Fechar a aplicação.
 
-## 5. Funcionalidade: Continuar Jogo
+## 5. Tela 3: Novo Jogo (New Game Form)
+- [ ] **Carregamento de Times**
+  - [ ] Ler `times.json` do idioma selecionado.
+  - [ ] Sortear 6 times aleatórios (sem repetição).
+  - [ ] Congelar seleção (não mudar ao re-renderizar).
+- [ ] **Interface**
+  - [ ] Formulário: Nome, Sobrenome, Nacionalidade (Dropdown), Língua.
+  - [ ] **Grid de Seleção de Time (3x2)**: 6 Botões grandes com Nome + Cores do time.
+- [ ] **Lógica de Seleção**
+  - [ ] Highlight no time clicado.
+  - [ ] Validar se todos os campos estão preenchidos antes de habilitar "Confirmar".
+- [ ] **Ação**
+  - [ ] Botão "Confirmar": Disparar geração de mundo (Passo 6).
+
+## 6. Geração de Mundo (Engine)
+- [ ] **Times**
+  - [ ] Carregar os 30 times do `times.json`.
+- [ ] **Jogadores**
+  - [ ] Gerar ~510 jogadores (17 por time).
+  - [ ] Usar `nomes.json` (nomes + sobrenomes) para gerar nomes aleatórios.
+- [ ] **Técnicos**
+  - [ ] Carregar `tecnicos.json`.
+  - [ ] Assignar User Manager ao time selecionado.
+  - [ ] Assignar bots aos outros 29 times.
+
+## 7. Tela 4: Notícias (News Screen)
+- [ ] **Template**
+  - [ ] Carregar `atual.json` como template de estrutura.
+- [ ] **Adaptação**
+  - [ ] Substituir dados estáticos pelos dados da carreira gerada (Nome do time, Data atual).
+  - [ ] Inserir mensagem de boas vindas personalizada ("Bem-vindo ao [Time Selecionado]").
+- [ ] **Renderização**
+  - [ ] Exibir Header com Data/Hora.
+  - [ ] Exibir Lista de Mensagens (Inbox).
+  - [ ] Exibir Detalhe da Mensagem selecionada.
+
+## 8. Funcionalidade: Continuar Jogo
 - [x] **Opção A (Simples)**
   - [x] Verificar existência de save mais recente.
   - [x] Se existir: Carregar e ir para o jogo.
   - [x] Se não: Exibir Toast/Modal "Nenhum save encontrado".
-- [x] **Opção B (Interface - Futuro)**
-  - [x] Listar slots de save com metadados.
 
-## 6. Tela 3: Novo Jogo (New Game Form)
-- [x] **Interface**
-  - [x] Formulário de criação de treinador (Nome, Sobrenome).
-  - [x] Seleção de Nacionalidade (Dropdown usando dados do `flags.json`).
-  - [x] Seleção de Clube Inicial (Dados do `clubs.json` ou engine).
-- [x] **Dados**
-  - [x] Carregar `new_game.json` do idioma selecionado.
-- [x] **Ação**
-  - [x] Botão "Confirmar": Inicializar engine rust, criar save inicial, ir para o jogo.
+## 9. Integração & Build
+- [ ] Padronizar pasta `resources/JSON` para distribuição.
+- [ ] Ajustar `tauri.conf.json` para incluir assets no build.
+- [ ] Verificar build final (`npm run tauri build`).
 
-## 7. Tela 4: Opções (Mínimo Viável)
-- [x] **Configurações**
-  - [x] Selector de Idioma (reutilizar lógica de flags ou dropdown).
-  - [x] Modo de Janela (Windowed/Fullscreen).
-  - [x] Escala de UI (1x, 1.5x, 2x - importante para 4K).
-- [x] Persistência de configurações.
-
-## 8. Integração Backend (Rust)
-- [x] Conectar UI (Frontend) com lógica de jogo (`cm_engine`/`cm_core`).
-- [x] Comandos Invoke para: Criar Jogo, Carregar Jogo, Salvar, Avançar Dia.
-
-## 9. Polimento Visual (Look & Feel)
-- [x] Garantir tipografia consistente (System fonts ou Google Fonts modernas).
-- [x] Paleta de cores sóbria e elegante (Dark mode default?).
-- [x] Responsividade do layout.
