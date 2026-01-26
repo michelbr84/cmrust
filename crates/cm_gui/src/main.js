@@ -133,6 +133,63 @@ const app = {
     app.showScreen('newgame');
   },
 
+  loadSquad: async (teamId) => {
+    try {
+      const players = await invoke('get_team_squad', { teamId: parseInt(teamId) });
+      app.renderSquadTable(players);
+    } catch (e) {
+      console.error("Failed to load squad:", e);
+    }
+  },
+
+  renderSquadTable: (players) => {
+    const tbody = document.querySelector('#squad-table tbody');
+    tbody.innerHTML = '';
+
+    players.forEach(p => {
+      const tr = document.createElement('tr');
+      // Determine badge color
+      let posClass = 'pos-MID';
+      if (p.position === 'GK') posClass = 'pos-GK';
+      else if (p.position.includes('D')) posClass = 'pos-DEF';
+      else if (p.position.includes('F') || p.position.includes('S')) posClass = 'pos-ATT';
+
+      tr.innerHTML = `
+            <td><span class="pos-badge ${posClass}">${p.position}</span></td>
+            <td style="font-weight:600">${p.name}</td>
+            <td>${p.age}</td>
+            <td>${p.nationality.replace('Nation ', '')}</td>
+            <td class="${p.overall > 70 ? 'val-high' : 'val-med'}">${p.overall}</td>
+            <td>${p.value}</td>
+            <td>${p.condition}%</td>
+        `;
+      tbody.appendChild(tr);
+    });
+  },
+
+  toggleTab: (tabName) => {
+    // UI Logic to switch content in main hub
+    document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+    // Find tab element (simplified)
+    const tabs = document.querySelectorAll('.nav-tab');
+    for (let t of tabs) { if (t.textContent === tabName) t.classList.add('active'); }
+
+    if (tabName === 'Squad') {
+      document.getElementById('inbox-list').style.display = 'none';
+      document.getElementById('reading-pane').style.display = 'none';
+      document.getElementById('squad-view').style.display = 'block';
+
+      // Load squad if needed (using current club ID)
+      if (app.state.gameState) {
+        app.loadSquad(app.state.gameState.meta.clubId);
+      }
+    } else if (tabName === 'Inbox') {
+      document.getElementById('inbox-list').style.display = 'flex';
+      document.getElementById('reading-pane').style.display = 'block';
+      document.getElementById('squad-view').style.display = 'none';
+    }
+  },
+
   renderTeamGrid: () => {
     const grid = document.getElementById('team-selection-grid');
     grid.innerHTML = '';

@@ -121,6 +121,26 @@
               Select a message
             </div>
           </div>
+
+          <!-- Squad View (Hidden by default, toggled via tabs) -->
+          <div id="squad-view" style="display:none; flex:1; overflow-y:auto; padding:0;">
+            <table class="datagrid" id="squad-table">
+              <thead>
+                <tr>
+                  <th width="5%">Pos</th>
+                  <th width="35%">Name</th>
+                  <th width="10%">Age</th>
+                  <th width="15%">Nat</th>
+                  <th width="10%">Ovr</th>
+                  <th width="15%">Value</th>
+                  <th width="10%">Cond</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Rows injected by JS -->
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <!-- 3. Bottom Bar -->

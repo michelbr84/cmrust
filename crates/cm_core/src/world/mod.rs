@@ -1,26 +1,26 @@
 //! World module - all game entities.
 
-mod academy;
-mod attributes;
-mod board;
-mod calendar;
-mod club;
-mod competition;
-mod contract;
-mod fixtures;
-mod history;
-mod injury;
-mod morale;
-mod nation;
-mod player;
-mod referee;
-mod reputation;
-mod scouting;
-mod stadium;
-mod staff;
-mod table;
-mod tactics;
-mod training;
+pub mod academy;
+pub mod attributes;
+pub mod board;
+pub mod calendar;
+pub mod club;
+pub mod competition;
+pub mod contract;
+pub mod fixtures;
+pub mod history;
+pub mod injury;
+pub mod morale;
+pub mod nation;
+pub mod player;
+pub mod referee;
+pub mod reputation;
+pub mod scouting;
+pub mod stadium;
+pub mod staff;
+pub mod table;
+pub mod tactics;
+pub mod training;
 
 pub use academy::Academy;
 pub use attributes::{Attributes, GoalkeeperAttributes, MentalAttributes, PhysicalAttributes, TechnicalAttributes};
