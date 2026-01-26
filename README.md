@@ -50,8 +50,6 @@ crates/
 
 ### ✅ Implemented
 - **Modern 4K GUI**: Tauri-based interface with Glassmorphism design and 4K support.
-### ✅ Implemented
-- **Modern 4K GUI**: Tauri-based interface with Glassmorphism design and 4K support.
 - **CM-Style Layout**: Authentic Top Bar + Sidebar + Content Split View + Bottom Actions layout.
 - **Backend Integrations**: Full Rust <> JS bridge for Player Data, Attributes, Simulation, and Saving.
 - **Squad Screen**: Interactive DataGrid with filters, position badges, and player profiles.

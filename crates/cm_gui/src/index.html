@@ -70,7 +70,7 @@
     <!-- Screen 4: Options -->
     <div id="screen-options" class="screen">
       <h2 style="font-size: 2rem; margin-bottom: 2rem; color:white;">Options</h2>
-      <div class="form-container" style="width: 500px;">
+      <div class="glass-container" style="width: 500px; padding: 2rem;">
         <div class="form-group">
           <label>Language</label>
           <select id="opt-language" onchange="app.changeLanguage(this.value)">
@@ -80,11 +80,36 @@
             <option value="es">Español</option>
           </select>
         </div>
+
         <div class="form-group">
+          <label>Resolution / Zoom</label>
+          <select id="opt-scale" onchange="app.setZoom(this.value)">
+            <option value="1">100% (Default)</option>
+            <option value="1.25">125% (Large)</option>
+            <option value="1.5">150% (4K)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Window Mode</label>
+          <div style="display:flex; gap:1rem; margin-top:0.5rem;">
+            <label style="flex:1; background:rgba(255,255,255,0.05); padding:1rem; border-radius:4px; cursor:pointer;">
+              <input type="radio" name="winmode" checked> Windowed
+            </label>
+            <label style="flex:1; background:rgba(255,255,255,0.05); padding:1rem; border-radius:4px; cursor:pointer;">
+              <input type="radio" name="winmode"> Fullscreen
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top:1rem;">
           <label>Simulation Speed</label>
           <input type="range" min="1" max="5" value="3" />
         </div>
-        <div style="margin-top: 2rem;">
+
+        <div style="margin-top: 2rem; display:flex; justify-content:space-between; align-items:center;">
+          <button class="action-btn secondary" style="border-color:#f87171; color:#f87171;"
+            onclick="alert('All data cleared.')">Reset Data</button>
           <button class="action-btn primary" onclick="app.showScreen('start')">Back</button>
         </div>
       </div>

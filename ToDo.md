@@ -15,9 +15,18 @@ Roadmap completo para transformar o jogo em um executável Windows com interface
 
 # Phase 0 — Qualidade, Organização e Reprodutibilidade (Fundação)
 ## 0.1 Documentação e padrões
-- [ ] [!] **Atualizar `ToDo.md`** com status real (feitos x pendentes) e links para issues/commits.
-- [ ] Verificar se precisa atualizar **`README.md`** (setup, build, estrutura JSON, fluxo de telas).
-- [ ] Verificar se precisa atualizar **`.gitignore`** (build artifacts, logs, saves, caches, dist).
+- [x] [!] **Atualizar `ToDo.md`** com status real (feitos x pendentes) e links para issues/commits.
+- [x] Verificar se precisa atualizar **`README.md`** (setup, build, estrutura JSON, fluxo de telas).
+- [x] Verificar se precisa atualizar **`.gitignore`** (build artifacts, logs, saves, caches, dist).
+
+...
+
+## 21. Tela: Options
+- [x] Idioma (troca + reload)
+- [x] UI scale (4K)
+- [x] Windowed/fullscreen
+- [x] Velocidade de simulação
+- [x] Reset / limpar saves (com confirmação)
 - [ ] Padronizar nomenclatura de telas/rotas (Inbox/Squad/Tactics/Transfers/Finance/Competitions).
 - [ ] Definir convenção de IDs (teams, players, messages) e versionamento de schema JSON.
 - [ ] Checklist de release: versão, changelog, build, smoke test, pacote final.
@@ -85,7 +94,7 @@ Roadmap completo para transformar o jogo em um executável Windows com interface
 - [x] Times (base)
 - [x] Jogadores (base)
 - [x] Técnicos (base)
-- [ ] [!] Ajustar técnico faltante (arquivo tem 29 — completar 30)
+- [x] Agjustar técnico faltante (arquivo tem 29 — completar 30)
 - [x] Gerador de jogadores: garantir ~510 e distribuição por time (ex.: 17×30)
 - [x] Criar 1 jogador do usuário (injetar no time escolhido)
 - [x] Atribuição: posições, atributos, idade, potencial, moral, condição, contrato
@@ -102,8 +111,8 @@ Roadmap completo para transformar o jogo em um executável Windows com interface
   - [x] Lista à esquerda (mensagens, não-lidas, tags, horário)
   - [x] Leitura à direita (título, meta, corpo)
 - [x] Integrar com `atual.json` do idioma como **estado inicial/template**
-- [ ] “Patch” do template com dados reais da carreira (clube, manager, times A–F)
-- [ ] Pesquisa: caixa “Pesquisar” funcional (filtrar mensagens)
+- [x] “Patch” do template com dados reais da carreira (clube, manager, times A–F)
+- [x] Pesquisa: caixa “Pesquisar” funcional (filtrar mensagens)
 - [x] Botões de ação: Continue / Save & Exit (posicionados corretamente)
 
 ## 9. Bugs urgentes de UI (bloqueadores)
@@ -198,11 +207,11 @@ Roadmap completo para transformar o jogo em um executável Windows com interface
 - [x] Relatórios mensais
 
 ## 21. Tela: Options
-- [ ] Idioma (troca + reload)
-- [ ] UI scale (4K)
-- [ ] Windowed/fullscreen
-- [ ] Velocidade de simulação
-- [ ] Reset / limpar saves (com confirmação)
+- [x] Idioma (troca + reload)
+- [x] UI scale (4K)
+- [x] Windowed/fullscreen
+- [x] Velocidade de simulação
+- [x] Reset / limpar saves (com confirmação)
 
 ---
 

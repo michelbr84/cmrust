@@ -22,3 +22,7 @@ yarn-error.log*
 
 # VS Code
 .vscode/
+
+# Game Data
+/saves/
+/assets/data/generated/

@@ -742,6 +742,10 @@ const app = {
     app.showScreen('options');
   },
 
+  setZoom: (scale) => {
+    document.body.style.zoom = scale;
+  },
+
   showScreen: (screenId) => {
     document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
     document.getElementById(`screen-${screenId}`).classList.add('active');
