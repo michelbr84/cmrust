@@ -1,126 +1,194 @@
-# CM Rust ⚽
+# FutMestre
 
-A **Championship Manager 01/02-style** football manager simulator written in Rust.
+Jogo de gerenciamento de futebol inspirado nos clássicos **Championship Manager 01/02** e **Elifoot 98**. Construído em Rust com interface desktop via Tauri.
 
-[![Rust](https://img.shields.io/badge/rust-1.75%2B-orange.svg)](https://www.rust-lang.org/)
-[![Tests](https://img.shields.io/badge/tests-300%2B%20passing-green.svg)](#-testing)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+Gerencie seu clube, escale o time, defina táticas, contrate jogadores e leve seu time da quarta divisão ao topo do campeonato.
 
-## 🎮 Quick Start
+## Inicio Rapido
 
 ```bash
-# Clone and build
-git clone https://github.com/michelbr84/cmrust.git
-cd cmrust
-cargo build --release
+# Compilar o projeto
+cargo build --workspace
 
-# Simulate a match
+# Simular uma partida
 cargo run -p cm_cli -- simulate-match --home LIV --away ARS --seed 42
 
-# Create a new game
-cargo run -p cm_cli -- new-game --club LIV --manager "Your Name"
+# Criar um novo jogo
+cargo run -p cm_cli -- new-game --club LIV --manager "Seu Nome"
 
-# Advance simulation
+# Avançar dias
 cargo run -p cm_cli -- advance-day --days 7
+
+# Interface de terminal
+cargo run -p cm_tui
+
+# Servidor HTTP
+cargo run -p cm_server
 ```
 
-## 🏗️ Architecture
+## Pre-requisitos
 
-14-crate workspace following domain-driven design:
+- [Rust 1.75+](https://www.rust-lang.org/tools/install)
+- [Node.js 18+](https://nodejs.org/) (apenas para a GUI Tauri)
+
+## Arquitetura
+
+Workspace Rust com 15 crates seguindo Domain-Driven Design:
 
 ```
 crates/
-├── cm_utils        # Utilities (fs, hashing, RNG, time)
-├── cm_telemetry    # Logging, tracing, and metrics
-├── cm_core         # Domain models (world, economy, IDs)
-├── cm_data         # Data layer (JSON importer, SQLite, queries)
-├── cm_match        # Match engine (tick simulation, events, ratings)
-├── cm_ai           # AI systems (matchday, transfers, squad builder, press)
-├── cm_finance      # Financial simulation (wages, sponsorship, FFP)
-├── cm_transfers    # Transfer market (valuation, negotiation, contracts)
-├── cm_save         # Save/load with gzip + SHA256 verification
-├── cm_engine       # Game loop with 13+ systems (morale, training, inbox)
-├── cm_cli          # CLI commands (new-game, advance-day, simulate-match)
-├── cm_api          # REST API DTOs and routes
-├── cm_server       # Axum HTTP server
-└── cm_tui          # Ratatui terminal UI
+├── cm_utils        # Utilitarios (RNG, hashing, tempo, filesystem)
+├── cm_telemetry    # Logging, tracing e metricas
+├── cm_core         # Modelos de dominio (Jogador, Clube, Competicao, Mundo)
+├── cm_data         # Camada de dados (importador JSON, SQLite, repositorios)
+├── cm_match        # Motor de partida (simulacao minuto-a-minuto, eventos)
+├── cm_ai           # Sistemas de IA (escalacao, transferencias, tatica, diretoria)
+├── cm_finance      # Simulacao financeira (salarios, patrocinio, FFP)
+├── cm_transfers    # Mercado de transferencias (avaliacao, negociacao, contratos)
+├── cm_save         # Sistema de save (gzip + verificacao SHA256)
+├── cm_engine       # Game loop com 13+ sistemas (moral, treino, lesoes)
+├── cm_cli          # Comandos CLI (novo-jogo, avancar-dia, simular-partida)
+├── cm_tui          # Interface de terminal (Ratatui)
+├── cm_api          # API REST (DTOs e rotas)
+├── cm_server       # Servidor HTTP (Axum)
+└── cm_gui          # Interface desktop (Tauri + Glassmorphism 4K)
 ```
 
-## 📊 Features
+### Dependencias entre Crates
 
-### ✅ Implemented
-- **Modern 4K GUI**: Tauri-based interface with Glassmorphism design and 4K support.
-- **CM-Style Layout**: Authentic Top Bar + Sidebar + Content Split View + Bottom Actions layout.
-- **Backend Integrations**: Full Rust <> JS bridge for Player Data, Attributes, Simulation, and Saving.
-- **Squad Screen**: Interactive DataGrid with filters, position badges, and player profiles.
-- **Match Engine**: Tick-by-tick probabilistic simulation (Stubbed).
-- **World Model**: Nations, Clubs, Players (with 40+ attributes), Staff, Competitions, Stadiums, Referees
-- **AI Systems**: Matchday lineup selection, transfer decision-making, squad analysis, press conferences
-- **Data Import**: JSON-based world loader with auto-generated defaults + SQLite persistence
-- **Save System**: Compressed saves with SHA256 integrity verification
-- **CLI**: Commands for match simulation, game creation, day advancement
-- **Game Loop**: Day-by-day processing with morale, training, injury, and financial systems
-- **Transfer System**: Bid evaluation, contract negotiations, player valuation
+```
+cm_utils --> cm_core --> cm_data --> cm_match
+                |                       |
+                +--> cm_ai <------------+
+                +--> cm_finance         |
+                +--> cm_transfers       |
+                         |              |
+                    cm_engine <---------+
+                    /   |   \
+              cm_cli  cm_tui  cm_api --> cm_server
+                              cm_gui
+```
 
-### 🔨 In Progress
-- [ ] TUI screens (squad management, tactics, inbox, match day) (Legacy/Alternative)
-- [ ] REST API endpoints
-- [ ] Training and youth academy progression (Deep simulation)
+## Funcionalidades
 
-## 🧪 Testing
+### Implementadas
+- **Motor de Partida**: Simulacao probabilistica minuto-a-minuto com RNG semeado
+- **Modelo de Mundo**: Nacoes, Clubes, Jogadores (40+ atributos), Staff, Competicoes, Estadios
+- **IA**: Escalacao automatica, decisoes de transferencia, analise de elenco, coletivas de imprensa
+- **Financas**: Salarios semanais, bilheteria, patrocinio por reputacao, premiacao
+- **Transferencias**: Propostas, negociacao, avaliacao de jogadores, janelas de transferencia, emprestimos
+- **Salvamento**: Saves comprimidos (.cmsave) com verificacao de integridade SHA256
+- **CLI**: Comandos para simulacao, criacao de jogo e avanco de dias
+- **Game Loop**: Processamento diario com moral, treino, lesoes e financas
+- **GUI Desktop**: Interface Tauri com design Glassmorphism e suporte a 4K
 
-The project has **300+ unit tests** covering all major systems:
+### Em Desenvolvimento
+- Motor de partida com cartoes, lesoes e substituicoes durante o jogo
+- Sistema de 4 divisoes com promocao e rebaixamento
+- Copa nacional (mata-mata)
+- Treinamento com evolucao de atributos
+- Categorias de base
+- Dados de clubes brasileiros
+- Testes E2E e cobertura > 70%
+
+## Comandos de Desenvolvimento
 
 ```bash
-# Run all tests
-cargo test --workspace
+# Compilar
+cargo build --workspace              # Debug
+cargo build --workspace --release    # Release
 
-# Run specific crate tests
-cargo test -p cm_core      # Core domain models
-cargo test -p cm_match     # Match engine
-cargo test -p cm_ai        # AI systems
-cargo test -p cm_transfers # Transfer system
+# Testes
+cargo test --workspace               # Todos os testes
+cargo test -p cm_match               # Testes de um crate especifico
+
+# Qualidade
+cargo fmt --all                      # Formatar codigo
+cargo clippy --workspace --all-targets -- -D warnings  # Linting
+
+# Makefile (atalhos)
+make all                             # fmt + clippy + test
+make ci                              # fmt-check + clippy + test
+make run-tui                         # Iniciar TUI
+make run-server                      # Iniciar servidor HTTP
+make simulate-match                  # Simular partida de exemplo
 ```
 
-## 📁 Project Structure
+## Estrutura de Pastas
 
 ```
-cmrust/
-├── Cargo.toml          # Workspace manifest
-├── crates/             # All 14 crates
-├── assets/data/        # Game data (JSON)
-├── saves/              # Save game directory
-├── .cargo/config.toml  # Cargo configuration
-├── rustfmt.toml        # Formatting rules
-└── clippy.toml         # Lint rules
+FutMestre/
+├── Cargo.toml          # Manifesto do workspace
+├── Cargo.lock          # Versoes travadas das dependencias
+├── Makefile            # Atalhos de desenvolvimento
+├── justfile            # Alternativa ao Make (just)
+├── rustfmt.toml        # Configuracao de formatacao
+├── clippy.toml         # Configuracao de linting
+├── deny.toml           # Auditoria de dependencias
+├── roadmap.md          # Plano de desenvolvimento
+├── CLAUDE.md           # Instrucoes para Claude Code
+├── crates/             # Todos os 15 crates Rust
+├── assets/
+│   └── data/           # Dados do jogo (JSON)
+│       ├── clubs.json
+│       ├── competitions.json
+│       ├── nations.json
+│       ├── stadiums.json
+│       ├── calendar.json
+│       ├── referees.json
+│       ├── staff.json
+│       └── tactics_presets.json
+├── saves/              # Saves do jogador
+├── benches/            # Benchmarks de performance
+├── tests/              # Testes de integracao
+├── scripts/            # Scripts auxiliares
+└── docs/               # Documentacao adicional
 ```
 
-## 🎯 Roadmap
+## Modelo de Dados
 
-| Phase | Status | Description |
-|-------|--------|-------------|
-| M0 | ✅ | Setup repo/workspace, lint/format |
-| M1 | ✅ | cm_core (IDs, entities, rules) |
-| M2 | ✅ | cm_data (JSON schema, SQLite, importer) |
-| M3 | ✅ | cm_engine (loop, 13+ systems, time) |
-| M4 | ✅ | cm_match (ticks, events, ratings) |
-| M5 | ✅ | Competitions (fixtures, tables, GUI view) |
-| M6 | ✅ | cm_transfers (valuation, negotiation, GUI search) |
-| M7 | ✅ | cm_finance (wages, sponsorship, FFP) |
-| M8 | ✅ | cm_ai (matchday, transfers, press, squad) |
-| M9 | ✅ | cm_save (snapshot, compression) |
-| M10 | 🔨 | cm_tui (screens, widgets) |
-| M11 | ✅ | cm_cli (commands) |
-| M12 | 🔨 | cm_api + cm_server |
-| M13 | ✅ | Tests (300+ passing) |
-| M14 | ⬜ | Docs + release + docker |
+### Jogador (40+ atributos)
+- **Tecnicos**: cruzamento, drible, finalizacao, marcacao, passe, desarme, cabeceio
+- **Mentais**: agressividade, antecipacao, compostura, decisao, lideranca, visao
+- **Fisicos**: velocidade, resistencia, forca, aceleracao, agilidade
+- **Goleiro**: defesa, reflexos, comando de area, chute longo
+- **Derivados**: overall_rating() calculado por posicao com pesos
 
-**Legend**: ✅ Complete | 🔨 In Progress | ⬜ Not Started
+### Clube
+- Elenco, staff, orcamento (transferencias + salarios), estadio
+- Taticas: formacao, mentalidade, pressao, ritmo
+- Reputacao e confianca da diretoria
 
-## 📝 License
+### Competicao
+- Tipos: liga (pontos corridos) e copa (mata-mata)
+- Fixtures gerados automaticamente, tabela de classificacao
 
-MIT License - see [LICENSE](LICENSE) for details.
+## Motor de Partida
 
-## 🤝 Contributing
+Simulacao probabilistica por minuto (1-90):
+1. Calcula vantagem de ataque: `ataque_casa - meio_campo_fora`
+2. Chance base de gol: 0.5% a 4% por minuto (ajustado por forca do time)
+3. Roll de RNG para oportunidade de ataque
+4. Calculo finalizacao vs defesa
+5. Gol se finalizacao > limiar
 
-Contributions welcome! Please check the roadmap above for areas that need work.
+Suporta RNG semeado para resultados deterministicos e reproduziveis.
+
+## Roadmap
+
+Consulte [roadmap.md](roadmap.md) para o plano completo de desenvolvimento com 13 fases.
+
+**Prioridades atuais:**
+1. Motor de partida realista (cartoes, lesoes, substituicoes)
+2. Sistema de 4 divisoes com promocao/rebaixamento
+3. Interface GUI jogavel completa
+4. Dados de clubes brasileiros
+
+## Licenca
+
+MIT License — veja [LICENSE](LICENSE) para detalhes.
+
+---
+
+*Desenvolvido com dedicacao para os fas de jogos de gerenciamento de futebol.*
+"# FutMestre" 
